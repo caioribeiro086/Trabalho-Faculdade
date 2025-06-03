@@ -1,0 +1,32 @@
+<h1>Vendas</h1>
+<form method="get">
+    Cliente:
+    <select name="cliente">
+        <option value="">Todos</option>
+        {% for cliente in clientes %}
+            <option value="{{ cliente.id }}" {% if cliente_id == cliente.id|stringformat:"s" %}selected{% endif %}>{{ cliente.nome }}</option>
+        {% endfor %}
+    </select>
+    Data Início: <input type="date" name="data_inicio" value="{{ data_inicio }}">
+    Data Fim: <input type="date" name="data_fim" value="{{ data_fim }}">
+    <button type="submit">Filtrar</button>
+</form>
+<a href="{% url 'venda_create' %}">Nova Venda</a>
+<table>
+    <tr>
+        <th>Cliente</th><th>Produto</th><th>Qtd</th><th>Data</th><th>Total</th><th>Ações</th>
+    </tr>
+    {% for venda in vendas %}
+    <tr>
+        <td>{{ venda.cliente.nome }}</td>
+        <td>{{ venda.produto.nome }}</td>
+        <td>{{ venda.quantidade }}</td>
+        <td>{{ venda.data_venda }}</td>
+        <td>R$ {{ venda.total }}</td>
+        <td>
+            <a href="{% url 'venda_update' venda.pk %}">Editar</a> |
+            <a href="{% url 'venda_delete' venda.pk %}">Excluir</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
